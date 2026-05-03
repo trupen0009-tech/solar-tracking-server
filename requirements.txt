@@ -1,0 +1,4 @@
+flask
+pvlib
+pandas
+gunicorn
