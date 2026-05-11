@@ -47,8 +47,8 @@ def sun():
     # -----------------------------
     # 4. Calculate today's sunrise/sunset time
     # -----------------------------
-    today = current_time.normalize()
-    day_index = pd.DatetimeIndex([today])
+    today_noon = current_time.normalize() + pd.Timedelta(hours=12)
+    day_index = pd.DatetimeIndex([today_noon])
 
     sun_times = location.get_sun_rise_set_transit(day_index)
 
@@ -64,15 +64,8 @@ def sun():
     sunrise_azimuth = float(sunrise_pos["azimuth"].iloc[0])
     sunset_azimuth = float(sunset_pos["azimuth"].iloc[0])
 
-    # -----------------------------
-    # 6. Day/night visibility logic
-    # -----------------------------
-    time_visible = sunrise_time <= current_time <= sunset_time
-
-    # 88° instead of 90° avoids weak horizon tracking
-    height_visible = zenith <= 88
-
-    sun_visible = time_visible and height_visible
+    
+    sun_visible = zenith <= 88
 
     # -----------------------------
     # 7. Dynamic seasonal mapping
